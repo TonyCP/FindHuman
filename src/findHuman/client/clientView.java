@@ -16,6 +16,8 @@ public class clientView extends JFrame implements ActionListener {
     private static final Float WELCOME_LABEL_SIZE = 24.0f;
     private client controller;
     private JPanel humanPanel;
+    private guessingClientPanel guessPanel;
+    private hidingClientPanel hidePanel;
     private JPanel scoreBox;
     private JLabel yourScore;
     private JLabel oppScore;
@@ -73,8 +75,24 @@ public class clientView extends JFrame implements ActionListener {
         showChanges();
     }
 
-    public void addHumanPanel(JPanel humanPanel) {
-        humanPanel.add(humanPanel);
+    public void addHumanPanel(String panelType) {
+        if(panelType == "GUESS") {
+            guessPanel = new guessingClientPanel(controller);
+            this.humanPanel = guessPanel;
+        }else if(panelType == "HIDE"){
+            hidePanel = new hidingClientPanel(controller);
+            this.humanPanel = hidePanel;
+        }
+        showChanges();
+    }
+
+    public void updateHumanPanel(){
+        if(humanPanel instanceof guessingClientPanel){
+
+
+        }else if(humanPanel instanceof hidingClientPanel){
+
+        }
         showChanges();
     }
 

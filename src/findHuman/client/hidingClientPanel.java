@@ -35,6 +35,7 @@ public class hidingClientPanel extends JPanel implements ActionListener, ListSel
     public hidingClientPanel(client controller){
         this.controller = controller;
         setupPanel();
+        setResponsePanel();
         setupListeners();
     }
 
@@ -113,17 +114,18 @@ public class hidingClientPanel extends JPanel implements ActionListener, ListSel
     }
 
     // Set response here and enable submit
-    public void setResponsePanel(String[] noun, String[] verb, String[] subject){
-        for(int i = 0; i < noun.length; i++){
-            subjectList.addElement(noun[i] + "\n");
+    public void setResponsePanel(){
+
+        for(int i = 0; i < wordList.getNoun().length; i++){
+            subjectList.addElement(wordList.getNoun()[i] + "\n");
         }
 
-        for(int i = 0; i < verb.length; i++){
-            verbList.addElement(verb[i] + "\n");
+        for(int i = 0; i < wordList.getVerb().length; i++){
+            verbList.addElement(wordList.getVerb()[i] + "\n");
         }
 
-        for(int i = 0; i < subject.length; i++){
-            subjectList.addElement(noun[i] + "\n");
+        for(int i = 0; i < wordList.getSubject().length; i++){
+            subjectList.addElement(wordList.getSubject()[i] + "\n");
         }
         submitButton.setEnabled(true);
         showChanges();

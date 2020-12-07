@@ -13,8 +13,9 @@ public class clientModel {
     private Socket socket;
     private BufferedReader inSocket;
     private DataOutputStream outSocket;
+    private client client;
 
-    public clientModel(String serverAddress, int serverPort) {
+    public clientModel(String serverAddress, int serverPort, client client) {
         try {
             this.socket = new Socket(serverAddress, serverPort);
         } catch (IOException e) {
@@ -25,10 +26,10 @@ public class clientModel {
         try {
             this.inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.outSocket = new DataOutputStream(socket.getOutputStream());
-            gameStart(inSocket, outSocket);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.client = client;
     }
 
     public String getServerMessage() {
@@ -59,12 +60,6 @@ public class clientModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void gameStart(BufferedReader inSocket, DataOutputStream outSocket) {
-
-        int currentRound = 1;
-        //
     }
 
     public String[] getResponseArray() throws IOException {

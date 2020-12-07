@@ -32,6 +32,9 @@ public class server {
 
         try {
             Socket socket = serverSocket.accept();
+            player newPlayer = new player(socket, "fill");
+            Thread newPlayerThread = new Thread(newPlayer);
+            newPlayerThread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

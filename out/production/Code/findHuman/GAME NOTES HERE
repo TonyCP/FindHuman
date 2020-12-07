@@ -11,10 +11,3 @@ ETC:
     - Maybe first client is guess an next to connect is hiding.
         - Server will implement correct panels.
 
-
-- MESSAGE FROM SERVER:
-    - Safe to start game after two clients
-        - get player names
-        - Decide if client is guess or hiding & send message to client for setting panel
-
-        -while current rounds less than max loop & inc at end
