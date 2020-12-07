@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+// Class not nearly complete just set up for testing GUI etc //
 public class server {
 
     private static final int DEFAULT_PORT = 44444;
@@ -13,11 +14,11 @@ public class server {
     private int numberOfPlayers = 5; // 2 human players 1 bot
 
 
-    public server(int serverPort){
+    public server(int serverPort) {
         this.serverPort = serverPort;
     }
 
-    public void startConnection(){
+    public void startConnection() {
         System.out.println("Starting Find-the-Human server\nServer port: " + serverPort);
         ServerSocket serverSocket = null;
 
@@ -29,10 +30,33 @@ public class server {
             System.exit(1);
         }
 
+        try {
+            Socket socket = serverSocket.accept();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
 
+    public static void main(String[] args) {
+        int serverPort = DEFAULT_PORT;
+
+        for (int i = 0; i < args.length; i += 2) {
+            String option = args[i];
+            String argument = null;
+
+            try {
+                serverPort = Integer.parseInt(argument);
+            } catch (NumberFormatException e) {
+                System.err.println("Server port must be an integer");
+                System.exit(1);
+            }
+        }
+
+        server server = new server(serverPort);
+        server.startConnection();
+    }
 
 
 }
