@@ -11,9 +11,13 @@ public class server {
     private gameLogic gameLogic;
     private int serverPort;
     private int numberOfRounds = 7;
-    private int numberOfPlayers = 0; // 2 human players 1 bot
+    private int numberOfPlayers = 0; // 2 human players 1 bot // Initializing to 0, incrementing to keep track of playe rnumbers
     private int  threadCount = -1; 
-    private static final int maxPlayers = 3; 
+    private static final int maxPlayers = 3; // final int to keep track of how many players can be in the game (might be 2 instead of 3)
+    private boolean[] threadsToBeHandled = new boolean[maxPlayers]; 
+    private boolean[] threadsHandled = new boolean [maxPlayers];  
+    // private int threadsHandled = 0; // might not need an array of Booleans 
+    // private int threadsToBeHandled = 0; 
     public server(int serverPort) {
         this.serverPort = serverPort;
     }
@@ -61,6 +65,21 @@ public class server {
 
         server server = new server(serverPort);
         server.startConnection();
+    }
+
+    class PlayerMultiThread {
+	    int currentThread;
+	    Socket client;  
+	public PlayerMultiThread(Socket client) {
+		currentThread = getThread(); 
+		threadstoBeHandled[currentThread] = true;
+	        threadsHandled[currentThread] = false; // not sure if two arrays are needed? Wondering if you could just use this array by itself
+		this.client = client; 
+	}
+	private synchronized int getThread() {
+		threadCount++; 
+		return threadCount; 
+	}
     }
 
 
