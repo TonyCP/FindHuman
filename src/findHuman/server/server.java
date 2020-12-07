@@ -11,9 +11,9 @@ public class server {
     private gameLogic gameLogic;
     private int serverPort;
     private int numberOfRounds = 7;
-    private int numberOfPlayers = 5; // 2 human players 1 bot
-
-
+    private int numberOfPlayers = 0; // 2 human players 1 bot
+    private int  threadCount = -1; 
+    private static final int maxPlayers = 3; 
     public server(int serverPort) {
         this.serverPort = serverPort;
     }
@@ -24,21 +24,23 @@ public class server {
 
         try {
             System.out.println("Creating server socket");
-            serverSocket = new ServerSocket(serverPort);
+	    serverSocket = new ServerSocket(serverPort);
         } catch (IOException e) {
             System.err.println("Could not start Find-the-Human server on port " + serverPort);
             System.exit(1);
         }
-
-        try {
-            Socket socket = serverSocket.accept();
-            player newPlayer = new player(socket, "fill");
-            Thread newPlayerThread = new Thread(newPlayer);
-            newPlayerThread.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+	while (numberOfPlayers < maxPlayers) {
+	
+        	try {
+            		Socket socket = serverSocket.accept();
+            		player newPlayer = new player(socket, "fill");
+            		//Thread newPlayerThread = new Thread(newPlayer);
+	    		numberOfPlayers++; 
+            		//newPlayerThread.start();
+        	} catch (IOException e) {
+            		e.printStackTrace();
+        	}
+	}
 
     }
 
