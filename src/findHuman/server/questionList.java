@@ -16,7 +16,7 @@ public class questionList {
             "What is the meaning of life?",
             "What do you want to invent?",
             "If someone gave you a lot of money, how would you spend it?",
-            "Who’s the boss of you?",
+            "Who's the boss of you?",
             "Why do you wake up in the morning?",
             "What makes you dance?",
             "Why do you wake up in the morning?",
