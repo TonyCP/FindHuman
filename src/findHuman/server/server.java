@@ -1,5 +1,9 @@
 package findHuman.server;
 
+//import jdk.internal.org.jline.reader.Buffer; //what is the purpose of this?
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,10 +19,13 @@ public class server {
     private int  threadCount = -1; 
     private static final int maxPlayers = 3; // final int to keep track of how many players can be in the game (might be 2 instead of 3)
     private boolean[] threadsToBeHandled = new boolean[maxPlayers]; 
-    private boolean[] threadsHandled = new boolean [maxPlayers];  
+    private boolean[] threadsHandled = new boolean [maxPlayers];
+    private BufferedInputStream[] playerInputs = new BufferedInputStream[maxPlayers];
+    private  BufferedOutputStream[] playerOutputs = new BufferedOutputStream[maxPlayers];
     // private int threadsHandled = 0; // might not need an array of Booleans 
     // private int threadsToBeHandled = 0; 
     public server(int serverPort) {
+
         this.serverPort = serverPort;
     }
 
@@ -68,18 +75,38 @@ public class server {
     }
 
     class PlayerMultiThread {
-	    int currentThread;
-	    Socket client;  
-	public PlayerMultiThread(Socket client) {
-		currentThread = getThread(); 
-		threadsToBeHandled[currentThread] = true;
-	        threadsHandled[currentThread] = false; // not sure if two arrays are needed? Wondering if you could just use this array by itself
-		this.client = client; 
-	}
-	private synchronized int getThread() {
-		threadCount++; 
-		return threadCount; 
-	}
+	    private int currentThread;
+	    private Socket client;
+	    // TODO: make sure streams line up with client
+        BufferedInputStream playerInput; // data incoming from player
+        BufferedOutputStream playerOutput; // data sent to player
+
+	    public PlayerMultiThread(Socket client) {
+            currentThread = getThread();
+            threadsToBeHandled[currentThread] = true;
+                threadsHandled[currentThread] = false; // not sure if two arrays are needed? Wondering if you could just use this array by itself
+            this.client = client;
+            try {
+                //TODO: make sure these line up with client side
+                playerInput = new BufferedInputStream(client.getInputStream());
+                playerOutput = new BufferedOutputStream(client.getOutputStream());
+
+                playerInputs[threadCount] = playerInput;
+                playerOutputs[threadCount] = playerOutput;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+	    }
+        private synchronized int getThread() {
+            threadCount++;
+            return threadCount;
+        }
+
+        public void run() {
+
+        }
     }
 
 
