@@ -1,0 +1,13 @@
+NEEDED:
+- Implement multiple game instances?
+- Fix decor
+- Implement and ensure proper game logic
+- Fix scoring in client view
+
+
+
+ETC:
+- Server should choose which client is guess and which is hiding.
+    - Maybe first client is guess an next to connect is hiding.
+        - Server will implement correct panels.
+
