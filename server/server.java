@@ -78,21 +78,21 @@ public class server {
 	    private int currentThread;
 	    private Socket client;
 	    // TODO: make sure streams line up with client
-        BufferedInputStream playerInput; // data incoming from player
-        BufferedOutputStream playerOutput; // data sent to player
+        BufferedInputStream playerInput; // data incoming from player // needs getter/setter
+        BufferedOutputStream playerOutput; // data sent to player // needs getter/setter
 
 	    public PlayerMultiThread(Socket client) {
             currentThread = getThread();
-            threadsToBeHandled[currentThread] = true;
+            threadsToBeHandled[currentThread] = true; //getter setter?
                 threadsHandled[currentThread] = false; // not sure if two arrays are needed? Wondering if you could just use this array by itself
             this.client = client;
             try {
                 //TODO: make sure these line up with client side
-                playerInput = new BufferedInputStream(client.getInputStream());
-                playerOutput = new BufferedOutputStream(client.getOutputStream());
+                playerInput = new BufferedInputStream(client.getInputStream()); //getter setter
+                playerOutput = new BufferedOutputStream(client.getOutputStream()); //getter setter
 
-                playerInputs[threadCount] = playerInput;
-                playerOutputs[threadCount] = playerOutput;
+                playerInputs[threadCount] = playerInput; // getter setter
+                playerOutputs[threadCount] = playerOutput; // getter setter
 
             } catch (IOException e) {
                 e.printStackTrace();

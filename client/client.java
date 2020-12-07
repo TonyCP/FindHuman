@@ -56,11 +56,11 @@ public class client {
         switch (serverMessageComponents[1]){
             // Welcome & prompt player name
             case "WELCOME":
-                view.showWelcomePanel();
+        //        view.showWelcomePanel();
                 getServerMessage();
                 break;
             case "GETNAME":
-                view.getHumanName();
+              //  view.getHumanName();
                 getServerMessage();
                 break;
 
@@ -77,7 +77,7 @@ public class client {
                 }
 
             case "NEWROUND":
-                switch ()
+               // switch ()
         }
 
     }
