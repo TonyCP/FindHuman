@@ -72,7 +72,7 @@ public class server {
 	    Socket client;  
 	public PlayerMultiThread(Socket client) {
 		currentThread = getThread(); 
-		threadstoBeHandled[currentThread] = true;
+		threadsToBeHandled[currentThread] = true;
 	        threadsHandled[currentThread] = false; // not sure if two arrays are needed? Wondering if you could just use this array by itself
 		this.client = client; 
 	}
