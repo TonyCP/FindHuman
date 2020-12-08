@@ -24,39 +24,12 @@ public class questionList {
             "What do you want to be when you grow up?",
             "If you wrote a book, what would its title be?",
             "What color is the sky?",
-            "How would you describe a dragon?",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "How would you describe a dragon?"
     };
 
     public static String getRandomQuestion(){
         Random rand = new Random(questions.length);
         int random = rand.nextInt();
-        return questions[random];
+        return questions[10];
     }
 }

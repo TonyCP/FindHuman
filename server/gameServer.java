@@ -1,6 +1,8 @@
 package server;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,6 +18,8 @@ public class gameServer {
     private gameLogic logic;
     private DataInputStream[] clientInputs;
     private DataOutputStream[] clientOutputs;
+    private Boolean[] waiting;
+    private Boolean[] done;
 
     //shared objects
     private String[] playerNames;
@@ -42,6 +46,8 @@ public class gameServer {
         logic = new gameLogic();
         clientInputs = new DataInputStream[MAX_NUM_PLAYERS];
         clientOutputs = new DataOutputStream[MAX_NUM_PLAYERS];
+        waiting = new Boolean[MAX_NUM_PLAYERS];
+        done = new Boolean[MAX_NUM_PLAYERS];
         int playerCount = 0;
         gameOver = false;
         boolean finished;
@@ -63,9 +69,9 @@ public class gameServer {
                 Socket client = server_Socket.accept();
                 System.out.println("New Player Accepted");
 
-                if(playerCount == 0){
+                if (playerCount == 0) {
                     handler = new clientHandler(client, playerType[0]);
-                }else {
+                } else {
                     handler = new clientHandler(client, playerType[1]);
                 }
 
@@ -97,33 +103,59 @@ public class gameServer {
                 //this part can loop for all normal rounds //
                 do {
 
+                    unleashThreads();
+                    waitForThreads();
+
                     playerTurn++;
-                    if(playerTurn == MAX_NUM_PLAYERS){
+                    if (playerTurn == MAX_NUM_PLAYERS) {
                         playerTurn = 0;
                     }
-
                     System.out.print(playerNames[playerTurn]);
 
+                    unleashThreads();
+                    waitForThreads();
+
+                    unleashThreads();
+                    waitForThreads();
+
+                    unleashThreads();
+                    waitForThreads();
                     // game logic here //
 
 
                 } while (!gameOver);
-
 
                 // In the case of game over//
                 if (!gameOver) {
 
 
                 }
-
-
             }
-
-
         }
-
-
     }
+
+    private void waitForThreads() {
+        Boolean somebodyIsntDone;
+        do {
+            somebodyIsntDone = false;
+            for (int thread = 0; thread < MAX_NUM_PLAYERS; thread++) {
+                if (done[thread] == false)
+                    somebodyIsntDone = true;
+            }
+        } while (somebodyIsntDone);
+    }
+
+
+    /*****
+     * A small method which tells all the threads they may progress
+     */
+    private void unleashThreads() {
+        for (int thread = 0; thread < MAX_NUM_PLAYERS; thread++) {
+            done[thread] = false;
+            waiting[thread] = false;
+        }
+    }
+
 
     class clientHandler extends Thread {
         private Socket client;
@@ -139,6 +171,8 @@ public class gameServer {
 
         public clientHandler(Socket socket, String playerType) {
             myThreadNumber = getMyThreadNumber();
+            waiting[myThreadNumber] = true;
+            done[myThreadNumber] = false;
             client = socket;
             type = playerType;
 
@@ -186,6 +220,9 @@ public class gameServer {
 
 
             while (!gameOver) {
+                System.out.println("Here 7");
+
+                waitForMain();
 
                 // Game logic here //
                 // implement methods //
@@ -200,7 +237,17 @@ public class gameServer {
             return threadCount;
         }
 
+        private void waitForMain() {
+            while (waiting[myThreadNumber]) {
+            }
+            ;
+
+            // prep for next wait
+            waiting[myThreadNumber] = true;
+        }
+
     }
+
 
     private synchronized boolean usernameAccepted(String userName, int threadNumber) {
         for (int i = 0; i < playerNames.length; i++) {
