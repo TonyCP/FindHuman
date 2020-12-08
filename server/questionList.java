@@ -1,4 +1,5 @@
-package findHuman.server;
+package server;
+
 
 import java.util.Random;
 
